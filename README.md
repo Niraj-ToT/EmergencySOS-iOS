@@ -1,72 +1,35 @@
-# 🚨 EmergencySOS - Personal Safety & Real-Time Location Sharing
+# 🚨 EmergencySOS-iOS
 
-## 📱 Overview
+**"Design and Development of an Emergency SOS and Real-Time Location Sharing System"**
 
-EmergencySOS is an iOS application built using SwiftUI and Firebase that helps users quickly send emergency SOS alerts along with their real-time location to trusted contacts.
-
-This project is being developed as a B.E. Information Technology Final Year Project following Apple's Human Interface Guidelines and modern iOS development practices.
+A modern iOS personal-safety application built with SwiftUI, Firebase, and Apple frameworks. The system allows users to rapidly trigger emergency SOS alerts and share their real-time location with trusted contacts during critical situations.
 
 ---
 
-## ✨ Features
+## 📌 Project Overview
 
-- User Authentication
-- User Profile
-- Emergency Contacts
-- One-Tap SOS Alert
-- Real-Time Location Sharing
-- SOS History
-- Apple Maps Integration
-- Dark Mode Support
-
----
-
-## 🛠 Tech Stack
-
-- Swift
-- SwiftUI
-- MVVM Architecture
-- Firebase Authentication
-- Firestore Database
-- MapKit
-- CoreLocation
+- **Platform**: iOS 17+
+- **Language**: Swift 5.9+
+- **UI Framework**: SwiftUI
+- **Architecture**: MVVM + Repository Pattern
+- **Backend & Cloud**: Firebase (Authentication, Cloud Firestore, Storage, Cloud Messaging)
+- **Apple Frameworks**: CoreLocation, MapKit, UserNotifications
+- **Design Guidelines**: Apple Human Interface Guidelines (HIG)
 
 ---
 
-## 📂 Project Structure
+## ✨ Core Features
 
-```
-App/
-Models/
-Views/
-ViewModels/
-Services/
-Repositories/
-Utilities/
-Resources/
-Documentation/
-```
+1. **Authentication**: Email/password registration, login, password recovery, session state management via Firebase Authentication.
+2. **User Profile & Medical ID**: Profile management including emergency medical notes and blood group information.
+3. **Emergency Contacts**: CRUD management for trusted emergency contacts with prioritization for emergency alerts.
+4. **Emergency SOS System**: Instant SOS activation with safety verification to prevent accidental triggers.
+5. **Real-Time Location Sharing**: High-accuracy GPS tracking using CoreLocation and MapKit rendering, streaming active coordinates via Firestore.
+6. **Emergency Notifications**: Real-time push notification infrastructure for designated emergency contacts.
+7. **SOS History & Settings**: Persistent logging of previous alerts and privacy/notification preference management.
 
 ---
 
-## 🚀 Development Status
+## 🏗️ Architecture
 
-- [x] Project Setup
-- [ ] Firebase Setup
-- [ ] Authentication
-- [ ] Home Dashboard
-- [ ] Profile
-- [ ] Emergency Contacts
-- [ ] SOS
-- [ ] Live Location
-- [ ] History
-- [ ] Settings
-
----
-
-## 👨‍💻 Developer
-
-**Niraj Patil**
-
-B.E. Information Technology  
-Chandigarh University
+The project follows a clean **MVVM (Model-View-ViewModel) + Repository Pattern**:

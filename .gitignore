@@ -1,19 +1,45 @@
-# Python
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+Packages/
+Package.pins
+Package.resolved
+
+# CocoaPods & Carthage
+Pods/
+Carthage/Build/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Python & Local Environment
 .venv/
 __pycache__/
 *.pyc
 
-# macOS
-.DS_Store
-
-# Xcode
-DerivedData/
-build/
-*.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-
 # VS Code
 .vscode/
 
-# Logs
+# Logs & Temp
 *.log
+*.tmp
