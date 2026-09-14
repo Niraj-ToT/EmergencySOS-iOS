@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct User: Codable {
+struct User: Codable, Identifiable {
     let uid: String
     let name: String
     let email: String
@@ -12,7 +12,19 @@ struct User: Codable {
     let createdAt: Date
     let updatedAt: Date
 
-    init(uid: String, name: String, email: String, phone: String, profileImageURL: String? = nil, bloodGroup: String? = nil, medicalInfo: String? = nil) {
+    var id: String { uid }
+
+    init(
+        uid: String,
+        name: String,
+        email: String,
+        phone: String,
+        profileImageURL: String? = nil,
+        bloodGroup: String? = nil,
+        medicalInfo: String? = nil,
+        createdAt: Date = Date(),
+        updatedAt: Date = Date()
+    ) {
         self.uid = uid
         self.name = name
         self.email = email
@@ -20,8 +32,8 @@ struct User: Codable {
         self.profileImageURL = profileImageURL
         self.bloodGroup = bloodGroup
         self.medicalInfo = medicalInfo
-        self.createdAt = Date()
-        self.updatedAt = Date()
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 
     enum CodingKeys: String, CodingKey {
