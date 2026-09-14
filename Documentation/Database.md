@@ -18,7 +18,7 @@ Stores user profile and critical medical information.
 | `name` | String | Yes | User's full name |
 | `email` | String | Yes | Primary email address |
 | `phone` | String | Yes | Contact phone number (with country code) |
-| `profileImage` | String | No | Firebase Storage download URL |
+| `profileImageURL` | String | No | Firebase Storage download URL |
 | `bloodGroup` | String | No | Blood group (e.g., "O+", "A-", "B+") |
 | `medicalInfo` | String | No | Allergies, chronic illnesses, emergency notes |
 | `createdAt` | Timestamp | Yes | Account creation timestamp |
@@ -29,36 +29,36 @@ Stores user profile and critical medical information.
 ### 2. `emergencyContacts` Collection
 Stores trusted emergency contacts linked to a specific user.
 
-- **Document ID**: `{contactId}` (Auto-generated Firestore ID)
+- **Document ID**: `{id}` (Auto-generated UUID or Firestore ID)
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `contactId` | String | Yes | Unique contact document identifier |
+| `id` | String | Yes | Unique contact document identifier |
 | `ownerId` | String | Yes | UID of the user who owns this contact |
 | `name` | String | Yes | Full name of the emergency contact |
 | `phone` | String | Yes | Phone number of the contact |
 | `relationship` | String | Yes | Relationship (e.g., "Parent", "Spouse", "Friend") |
-| `favorite` | Boolean | Yes | Priority flag for primary emergency alerts |
+| `isFavorite` | Boolean | Yes | Priority flag for primary emergency alerts |
 | `createdAt` | Timestamp | Yes | Contact record creation timestamp |
+| `updatedAt` | Timestamp | Yes | Last contact update timestamp |
 
 ---
 
 ### 3. `sosAlerts` Collection
 Records every emergency SOS event triggered by a user.
 
-- **Document ID**: `{alertId}` (Auto-generated Firestore ID)
+- **Document ID**: `{id}` (Auto-generated UUID or Firestore ID)
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `alertId` | String | Yes | Unique alert identifier |
+| `id` | String | Yes | Unique alert identifier |
 | `userId` | String | Yes | UID of the user who triggered the SOS |
-| `userName` | String | Yes | Snapshot of user name at time of alert |
-| `userPhone` | String | Yes | Snapshot of user phone at time of alert |
 | `latitude` | Double | Yes | Initial latitude coordinate when SOS was triggered |
 | `longitude` | Double | Yes | Initial longitude coordinate when SOS was triggered |
 | `timestamp` | Timestamp | Yes | Timestamp when the emergency was initiated |
-| `status` | String | Yes | Alert status: `"active"`, `"resolved"`, `"cancelled"` |
-| `resolvedAt` | Timestamp | No | Timestamp when the user ended the emergency |
+| `status` | String | Yes | Alert status: `"active"`, `"ended"`, `"cancelled"` |
+| `endedAt` | Timestamp | No | Timestamp when the user ended the emergency |
+| `createdAt` | Timestamp | Yes | Alert record creation timestamp |
 
 ---
 
@@ -69,14 +69,12 @@ Tracks real-time coordinates during active SOS alerts for live map monitoring.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
+| `id` | String | Yes | Unique live location tracking record identifier |
 | `userId` | String | Yes | UID of the user transmitting live location |
-| `alertId` | String | Yes | Active SOS alert ID |
 | `latitude` | Double | Yes | Current GPS latitude |
 | `longitude` | Double | Yes | Current GPS longitude |
-| `speed` | Double | Yes | User's current speed in m/s |
-| `heading` | Double | No | Direction of movement in degrees |
+| `speed` | Double | No | User's current speed in m/s |
 | `timestamp` | Timestamp | Yes | Timestamp of the last coordinate update |
-| `isActive` | Boolean | Yes | Flag indicating whether live streaming is active |
 
 ---
 
@@ -84,7 +82,7 @@ Tracks real-time coordinates during active SOS alerts for live map monitoring.
 
 - **User to Emergency Contacts**: 1-to-Many (`users.uid` == `emergencyContacts.ownerId`).
 - **User to SOS Alerts**: 1-to-Many (`users.uid` == `sosAlerts.userId`).
-- **SOS Alert to Live Location**: 1-to-1 active link (`sosAlerts.alertId` == `liveLocations.alertId`).
+- **User to Live Location**: 1-to-1 active tracking record (`users.uid` == `liveLocations.userId`).
 
 ---
 
@@ -93,4 +91,4 @@ Tracks real-time coordinates during active SOS alerts for live map monitoring.
 1. **User Profile**: Only authenticated users can read or write their own profile document (`request.auth.uid == resource.data.uid`).
 2. **Emergency Contacts**: Only the contact owner can read, create, update, or delete contacts (`request.auth.uid == resource.data.ownerId`).
 3. **SOS Alerts**: Created by the authenticated user; read access is restricted to the user and designated emergency contacts.
-4. **Live Location**: Transmitted only when an SOS is in `"active"` status; updates stop immediately when resolved.
+4. **Live Location**: Transmitted only when an SOS is in `"active"` status; updates stop immediately when ended or cancelled.
